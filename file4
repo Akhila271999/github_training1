@@ -1,0 +1,50 @@
+import time
+
+class WashingMachine:
+    def __init__(self):
+        self.is_power_on = False
+        self.is_water_filled = False
+        self.is_detergent_added = False
+
+    def power_on(self):
+        self.is_power_on = True
+        print("Powering on the washing machine.")
+
+    def fill_water(self):
+        if self.is_power_on:
+            self.is_water_filled = True
+            print("Filling water into the washing machine.")
+        else:
+            print("Please turn on the washing machine first.")
+
+    def add_detergent(self):
+        if self.is_power_on:
+            self.is_detergent_added = True
+            print("Adding detergent to the washing machine.")
+        else:
+            print("Please turn on the washing machine first.")
+
+    def run_cycle(self):
+        if self.is_power_on and self.is_water_filled and self.is_detergent_added:
+            print("Starting the washing cycle.")
+            time.sleep(2)  # Simulating the washing process
+            print("Washing cycle completed.")
+        else:
+            print("Please make sure the washing machine is properly set up.")
+
+    def power_off(self):
+        self.is_power_on = False
+        self.is_water_filled = False
+        self.is_detergent_added = False
+        print("Powering off the washing machine.")
+
+# Create an instance of the WashingMachine class
+washing_machine = WashingMachine()
+
+# Usage example
+washing_machine.power_on()
+washing_machine.fill_water()
+washing_machine.add_detergent()
+washing_machine.run_cycle()
+washing_machine.power_off()
+
