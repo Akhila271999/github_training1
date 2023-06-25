@@ -1,0 +1,132 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class MenuItem {
+    private String name;
+    private double price;
+
+    public MenuItem(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+class Order {
+    private MenuItem menuItem;
+    private int quantity;
+
+    public Order(MenuItem menuItem, int quantity) {
+        this.menuItem = menuItem;
+        this.quantity = quantity;
+    }
+
+    public MenuItem getMenuItem() {
+        return menuItem;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getTotalPrice() {
+        return menuItem.getPrice() * quantity;
+    }
+}
+
+class POSSystem {
+    private List<MenuItem> menu;
+    private List<Order> orders;
+
+    public POSSystem() {
+        menu = new ArrayList<>();
+        orders = new ArrayList<>();
+    }
+
+    public void addMenuItem(String name, double price) {
+        MenuItem menuItem = new MenuItem(name, price);
+        menu.add(menuItem);
+    }
+
+    public void placeOrder(int menuItemIndex, int quantity) {
+        MenuItem menuItem = menu.get(menuItemIndex);
+        Order order = new Order(menuItem, quantity);
+        orders.add(order);
+    }
+
+    public void printBill() {
+        System.out.println("************ Bill ************");
+        double total = 0;
+        for (Order order : orders) {
+            MenuItem menuItem = order.getMenuItem();
+            int quantity = order.getQuantity();
+            double totalPrice = order.getTotalPrice();
+            System.out.println(menuItem.getName() + " x " + quantity + " = " + totalPrice);
+            total += totalPrice;
+        }
+        System.out.println("Total: " + total);
+        System.out.println("******************************");
+    }
+}
+
+public class RestaurantPOS {
+    public static void main(String[] args) {
+        POSSystem posSystem = new POSSystem();
+
+        posSystem.addMenuItem("Burger", 5.99);
+        posSystem.addMenuItem("Pizza", 9.99);
+        posSystem.addMenuItem("Fries", 2.99);
+
+        Scanner scanner = new Scanner(System.in);
+
+        boolean done = false;
+        while (!done) {
+            System.out.println("Select an option:");
+            System.out.println("1. Place Order");
+            System.out.println("2. Print Bill");
+            System.out.println("3. Exit");
+
+            int option = scanner.nextInt();
+
+            switch (option) {
+                case 1:
+                    System.out.println("Select a menu item:");
+                    for (int i = 0; i < posSystem.menu.size(); i++) {
+                        MenuItem menuItem = posSystem.menu.get(i);
+                        System.out.println(i + ". " + menuItem.getName());
+                    }
+
+                    int menuItemIndex = scanner.nextInt();
+
+                    System.out.println("Enter quantity:");
+                    int quantity = scanner.nextInt();
+
+                    posSystem.placeOrder(menuItemIndex, quantity);
+                    break;
+
+                case 2:
+                    posSystem.printBill();
+                    break;
+
+                case 3:
+                    done = true;
+                    break;
+
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
+        }
+
+        scanner.close();
+    }
+}
+
