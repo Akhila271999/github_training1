@@ -1,1 +1,47 @@
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddddddddddddddddddddddddddd
+class SoftDrink:
+    def __init__(self, name, quantity):
+        self.name = name
+        self.quantity = quantity
+
+class SoftDrinkInventory:
+    def __init__(self):
+        self.inventory = {}
+
+    def add_softdrink(self, softdrink):
+        if softdrink.name in self.inventory:
+            self.inventory[softdrink.name] += softdrink.quantity
+        else:
+            self.inventory[softdrink.name] = softdrink.quantity
+
+    def remove_softdrink(self, softdrink, quantity):
+        if softdrink.name in self.inventory:
+            if self.inventory[softdrink.name] >= quantity:
+                self.inventory[softdrink.name] -= quantity
+            else:
+                print("Insufficient quantity of", softdrink.name)
+        else:
+            print(softdrink.name, "not found in inventory")
+
+    def check_inventory(self):
+        for name, quantity in self.inventory.items():
+            print(name, ":", quantity)
+
+# Creating SoftDrinkInventory instance
+inventory = SoftDrinkInventory()
+
+# Adding soft drinks to inventory
+coke = SoftDrink("Coke", 10)
+pepsi = SoftDrink("Pepsi", 5)
+inventory.add_softdrink(coke)
+inventory.add_softdrink(pepsi)
+
+# Checking inventory
+inventory.check_inventory()
+
+# Removing soft drinks from inventory
+inventory.remove_softdrink(coke, 2)
+inventory.remove_softdrink(pepsi, 10)
+
+# Checking inventory again
+inventory.check_inventory()
+
